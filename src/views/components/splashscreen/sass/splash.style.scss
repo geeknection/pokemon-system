@@ -1,5 +1,32 @@
 .splashscreen {
-    .splash-loading {
-        
+    height: 100%;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    .box-loading {
+        text-align: center;
+        .splash-title {
+            font-family: 'Pokemon Solid', sans-serif;
+        }
+        .splash-label {
+            font-family: 'Pokemon Hollow', sans-serif;
+            text-align: center;
+        }
+    }
+}
+@media (max-width: 992px) {
+    .btn-letsgo {
+        margin-bottom: 5px;
+    }
+}
+@media (max-width: 475px) {
+    .splashscreen {
+        .box-loading {
+            zoom: 0.9;
+        }
     }
 }

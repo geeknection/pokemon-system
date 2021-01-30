@@ -32,8 +32,6 @@ function HomeScreen(props: homeProps) {
      * @returns void
      */
     const loadPokemons = async (params: string = '') => {
-        //@todo: remover o return
-        return;
         const response = await Endpoints.pokemons(params);
         if (response.status === true) {
             setState(response.values);

@@ -5,6 +5,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
+import '#/theme/main.scss';
 
 function App() {
     return (

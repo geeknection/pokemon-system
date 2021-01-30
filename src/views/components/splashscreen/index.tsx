@@ -3,10 +3,11 @@ import {
     systemDataInterface
 } from '#/reducers/interfaces';
 import { connect } from 'react-redux';
-import { ReactChild } from 'react';
+import { ReactChild, useState } from 'react';
 import './sass/splash.style.scss';
 import Lottie from 'react-lottie';
 import Pickachu from './json/lottie-pickachu.json';
+import getMessage from '#/translate';
 
 interface splashProps {
     systemData: systemDataInterface,
@@ -15,11 +16,22 @@ interface splashProps {
 
 function SplashScreen(props: splashProps) {
     const { loading } = props.systemData;
+    const [play, setPlay] = useState(false);
+
+    const playAudio = () => {
+        let data: HTMLAudioElement|null = document.querySelector('#bg-audio');
+        if (data) {
+            data.volume = 0.3;
+            let prom: Promise<void> = data.play();
+            prom.then(() => setPlay(true));
+        }
+    }
 
     return(
         <div className='splashscreen'>
-            {loading === true && 
-            <div className='splash-loading'>
+            {!play && 
+            <div className='box-loading'>
+                <h1 className='splash-title'>{getMessage('systemTitle')}</h1>
                 <Lottie options={{
                     loop: true,
                     autoplay: true, 
@@ -32,8 +44,10 @@ function SplashScreen(props: splashProps) {
                 width={400}
                 isStopped={false}
                 isPaused={false}/>
+                {loading && <h2 className='splash-label'>{getMessage('loading')}</h2>}
+                {!loading && <button className='btn btn-default btn-letsgo' onClick={playAudio}>{getMessage('lets_go')}</button>}
             </div>}
-            {loading === false && props.children}
+            {play && props.children}
         </div>
     );
 }

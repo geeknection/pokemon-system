@@ -1,0 +1,24 @@
+@each $name, $size in $h-sizes {
+    h#{$name} {
+        font-size: remToPixel($size);
+        line-height: #{round(map-get($h-lines, $name))}px;
+        font-weight: 700;
+    }
+    .h#{$name} {
+        font-size: remToPixel($size)!important;
+        line-height: #{round(map-get($h-lines, $name))}px!important;
+        font-weight: 700!important;
+    }
+}
+@media (max-width: 1024px) {
+    @each $name, $size, $sizeM in $h-sizes {
+        h#{$name} {
+            font-size: remToPixel($sizeM);
+            line-height: #{round(map-get($media-h-lines, $name))}px;
+        }
+        .h#{$name} {
+            font-size: remToPixel($sizeM)!important;
+            line-height: #{round(map-get($media-h-lines, $name))}px!important;
+        }
+    }
+}
