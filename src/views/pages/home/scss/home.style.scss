@@ -22,6 +22,9 @@
     padding-top: 10px;
     max-height: 100%;
     overflow: auto;
+    .grid-list-none {
+      width: 100%;
+    }
     .grid-title {
         font-family: 'Pokemon Hollow', sans-serif;
         line-height: 120%;

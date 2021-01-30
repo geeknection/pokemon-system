@@ -52,6 +52,10 @@ function HomeScreen(props: homeProps) {
     const loadPokemons = async (params: string = '') => {
         const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
+            response.values.results.map((item: pokemonsInterface) => {
+                item.name = formatPokemonName(item.name);
+                return item;
+            });
             setState(response.values);
             window.scrollTo(0, 0);
 
@@ -106,7 +110,7 @@ function HomeScreen(props: homeProps) {
     const filterSearch = (item: pokemonsInterface): pokemonsInterface|void => {
         if (!search) return item;
         if (search) {
-            if (item.name.indexOf(search) >= 0) return item;
+            if (item.name.toLowerCase().indexOf(search.toLowerCase()) >= 0) return item;
         }
     }
     /**
@@ -198,14 +202,14 @@ function HomeScreen(props: homeProps) {
                                             src={getPokemonImage(item.sprites)}
                                             className='img-fluid grid-image'
                                             alt={item.name} />
-                                        <h2 className='grid-item-title'>{formatPokemonName(item.name)}</h2>
+                                        <h2 className='grid-item-title'>{item.name}</h2>
                                     </div>
                                     <button className='btn btn-see' onClick={() => seePokemon(item)}>{getMessage('see')}</button>
                                 </div>
                             );
                         })}
                         {pokemons().length === 0 &&
-                        <div className='grid-list-none'><h2 className='grid-subtitle'>{getMessage('not_found')}</h2></div>}
+                        <div className='grid-list-none text-center'><h2 className='grid-subtitle'>{getMessage('not_found')}</h2></div>}
                     </div>
 
                     <div className='grid-footer'>
