@@ -1,5 +1,6 @@
 import getMessage from '#/translate';
 import HomeScreen from '#/views/pages/home';
+import PokemonScreen from '#/views/pages/pokemon';
 
 interface routes {
     title: string,
@@ -9,6 +10,12 @@ interface routes {
 }
 
 const systemRoutes: routes[] = [
+    {
+        title: getMessage('pokemonPage'),
+        page: PokemonScreen,
+        path: '/pokemon/:id',
+        exact: false
+    },
     {
         title: getMessage('welcome'),
         page: HomeScreen,

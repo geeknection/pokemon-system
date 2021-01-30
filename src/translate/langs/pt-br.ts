@@ -7,7 +7,8 @@ const pt_BR: any = {
     search_placeholder: 'Pesquise um pokémon na listagem abaixo...',
     pokemons_list: 'Lista de Pokémons',
     not_found: 'Nenhum Pokémon encontrado',
-    see: 'Visualizar'
+    see: 'Visualizar',
+    pokemonPage: 'Página do Pokémon'
 };
 
 export default pt_BR;
