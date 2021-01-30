@@ -21,15 +21,16 @@ function SplashScreen(props: splashProps) {
     const playAudio = () => {
         let data: HTMLAudioElement|null = document.querySelector('#bg-audio');
         if (data) {
-            data.volume = 0.3;
+            data.volume = 0.2;
             let prom: Promise<void> = data.play();
             prom.then(() => setPlay(true));
         }
     }
 
     return(
+        <>
+        {!play &&
         <div className='splashscreen'>
-            {!play && 
             <div className='box-loading'>
                 <h1 className='splash-title'>{getMessage('systemTitle')}</h1>
                 <Lottie options={{
@@ -46,9 +47,10 @@ function SplashScreen(props: splashProps) {
                 isPaused={false}/>
                 {loading && <h2 className='splash-label'>{getMessage('loading')}</h2>}
                 {!loading && <button className='btn btn-default btn-letsgo' onClick={playAudio}>{getMessage('lets_go')}</button>}
-            </div>}
-            {play && props.children}
-        </div>
+            </div>
+        </div>}
+        {play && props.children}
+        </>
     );
 }
 

@@ -11,6 +11,7 @@ import Endpoints from '#/endpoints';
 import { withRouter } from 'react-router-dom';
 import Utils from '#/utils';
 import Splashscreen from '#/views/components/splashscreen';
+import './scss/home.style.scss';
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -27,6 +28,7 @@ function HomeScreen(props: homeProps) {
         results: []
     });
     const [page, setPage] = React.useState(0);
+    const [search, setSearch] = React.useState('');
     /**
      * Carrega os pokémons
      * @returns void
@@ -94,7 +96,28 @@ function HomeScreen(props: homeProps) {
 
     return(
         <Splashscreen>
-            <h1>{getMessage('welcome')}</h1>
+            <div className='home-box'>
+                <aside>
+                    <img
+                        className='img-fluid'
+                        src={require('./img/aside.png').default}
+                        alt='Pokemon Test'/>
+                </aside>
+                <main className='grid'>
+
+                    <h1 className='grid-title'>{getMessage('pokemons_list')}</h1>
+                    
+                    <div className='grid-input-box'>
+                        <input
+                            className='grid-input'
+                            value={search}
+                            placeholder={getMessage('search_placeholder')}
+                            onChange={(e) => setSearch(e.target.value)}/>
+                        <button className='btn btn-search'>{getMessage('search')}</button>
+                    </div>
+
+                </main>
+            </div>
         </Splashscreen>
     );
 }

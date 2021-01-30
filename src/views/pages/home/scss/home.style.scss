@@ -1,0 +1,97 @@
+.home-box {
+    background-color: #b03636;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    height: 100%;
+    aside {
+        width: 25%;
+        flex: 1;
+        img {
+            height: 100%;
+            margin: auto;
+            display: block;
+        }
+    }
+    .grid {
+        width: 75%;
+        flex: 2;
+        padding-top: 10px;
+        .grid-title {
+            font-family: 'Pokemon Hollow', sans-serif;
+            line-height: 120%;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .grid-input-box {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            width: 100%;
+            max-width: 600px;
+            background: #FFF;
+            border: solid 1px #CECECE;
+            border-radius: 20.5px;
+            .grid-input {
+                background-color: transparent;
+                border: none;
+                padding: 10px;
+                width: 100%;
+                font-size: 13px;
+                outline: 0!important;
+                &::placeholder {
+                    color: #cecece;
+                }
+                &:-ms-input-placeholder {
+                    color: #cecece;
+                }  
+                &::-ms-input-placeholder {
+                    color: #cecece;
+                }
+            }
+            .btn-search {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                border: solid 1px #e6e6e6;
+                border-radius: 17px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-right: 5px;
+                font-size: 12px;
+                width: 125px;
+                &:hover {
+                    background-color: var(--btn-default-hover);
+                    border: solid 1px var(--btn-default-hover);
+                    transition: .2s ease-out;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 1024px) {
+    .home-box {
+        aside {
+            display: none;
+        }
+        .grid {
+            width: 100%;
+            .grid-title {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .grid-input-box {
+                margin: auto;
+            }
+        }
+    }
+}
+@media (max-width: 648px) {
+    .home-box {
+        .grid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+}
