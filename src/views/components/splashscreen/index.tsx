@@ -21,7 +21,7 @@ function SplashScreen(props: splashProps) {
     const playAudio = () => {
         let data: HTMLAudioElement|null = document.querySelector('#bg-audio');
         if (data) {
-            data.volume = 0.2;
+            data.volume = 0.3;
             let prom: Promise<void> = data.play();
             prom.then(() => setPlay(true));
         }

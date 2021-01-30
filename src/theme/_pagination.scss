@@ -1,0 +1,29 @@
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+    li {
+        display: inline;
+        a, span {
+            padding: 8px;
+            background-color: #fff;
+            text-decoration: none;
+            min-width: 35px;
+            display: inline-block;
+        }
+        &.disabled {
+            &:first-child {
+                a, span {
+                    cursor: not-allowed;
+                }
+            }
+        }
+        &.active {
+            a {
+                background: #ffe000;
+                color: #f00;
+            }
+        }
+    }
+}
