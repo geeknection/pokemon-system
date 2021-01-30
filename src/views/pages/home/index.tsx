@@ -15,8 +15,7 @@ declare function alert(message?: any, position?: string, type?: string): void;
 
 interface homeProps {
     systemData: systemDataInterface,
-    setValue(data: setValueInterface): any,
-    children?: ReactNode
+    setValue(data: setValueInterface): any
 }
 
 function HomeScreen(props: homeProps) {
@@ -31,8 +30,8 @@ function HomeScreen(props: homeProps) {
      * Carrega os pokémons
      * @returns void
      */
-    const loadPokemons = async () => {
-        const response = await Endpoints.pokemons();
+    const loadPokemons = async (params: string = '') => {
+        const response = await Endpoints.pokemons(params);
         if (response.status === true) {
             setState(response.values);
             props.setValue({
@@ -48,6 +47,7 @@ function HomeScreen(props: homeProps) {
 
     /**
      * Inicia o carregamento dos dados via redux ou api
+     * @returns void
      */
     const initData = () => {
         const { results } = props.systemData;
@@ -57,6 +57,25 @@ function HomeScreen(props: homeProps) {
         else {
             loadPokemons();
         }
+    }
+
+    /**
+     * Avança a páginação
+     * @returns void
+     */
+    const nextPage = () => {
+        if (!state.next) return;
+        setPage(page+1);
+        loadPokemons(state.next);
+    }
+    /**
+     * Volta a paginação
+     * @returns void
+     */
+    const previousPage = () => {
+        if (!state.previous) return;
+        setPage(page-1);
+        loadPokemons(state.previous);
     }
 
     React.useEffect(() => {
