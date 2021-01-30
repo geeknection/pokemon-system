@@ -107,7 +107,7 @@ function HomeScreen(props: homeProps) {
      * @returns void
      */
     const resizePageRange = (): number => (screenWidth <= 1024 ? 5 : 10);
-    const filterSearch = (item: pokemonsInterface): pokemonsInterface|void => {
+    const filterSearch = (item: pokemonsInterface): pokemonsInterface | void => {
         if (!search) return item;
         if (search) {
             if (item.name.toLowerCase().indexOf(search.toLowerCase()) >= 0) return item;
@@ -194,14 +194,16 @@ function HomeScreen(props: homeProps) {
 
                     <div className='grid-list'>
                         {pokemons().map((item, key) => {
-                            return(
+                            return (
                                 <div className='grid-item' key={key}>
                                     <div className='h-100 text-center'>
-                                        <img
-                                            onError={filterBrokenImg}
-                                            src={getPokemonImage(item.sprites)}
-                                            className='img-fluid grid-image'
-                                            alt={item.name} />
+                                        <div className='box-img'>
+                                            <img
+                                                onError={filterBrokenImg}
+                                                src={getPokemonImage(item.sprites)}
+                                                className='img-fluid grid-image'
+                                                alt={item.name} />
+                                        </div>
                                         <h2 className='grid-item-title'>{item.name}</h2>
                                     </div>
                                     <button className='btn btn-see' onClick={() => seePokemon(item)}>{getMessage('see')}</button>
@@ -209,7 +211,7 @@ function HomeScreen(props: homeProps) {
                             );
                         })}
                         {pokemons().length === 0 &&
-                        <div className='grid-list-none text-center'><h2 className='grid-subtitle'>{getMessage('not_found')}</h2></div>}
+                            <div className='grid-list-none text-center'><h2 className='grid-subtitle'>{getMessage('not_found')}</h2></div>}
                     </div>
 
                     <div className='grid-footer'>
