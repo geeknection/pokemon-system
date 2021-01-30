@@ -1,4 +1,4 @@
-interface setValue {
+interface setValueInterface {
     reducer: string,
     type: string,
     value: any
@@ -8,6 +8,6 @@ interface setValue {
  * Altera os stores
  * @param {*} data
  */
-const setValue = ({ reducer, type, value }: setValue) => ({ reducer, type, value });
+const setValue = ({ reducer, type, value }: setValueInterface) => ({ reducer, type, value });
 
 export default setValue;

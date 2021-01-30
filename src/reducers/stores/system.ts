@@ -1,10 +1,12 @@
+import { systemDataInterface } from "#/reducers/interfaces";
+
 interface action {
     reducer: string,
     type: string,
     value: any
 }
-const initialState = {
-
+const initialState: systemDataInterface = {
+    pokemons: []
 };
 
 const systemData = (state: any = initialState, action: action) => {
