@@ -10,9 +10,11 @@ const deviceLanguage = navigator.language.toString().toLowerCase().replace('_', 
 const getMessage = (slug: string): string => {
     try {
         let language = Object.assign({}, pt_BR);
-        if (require(`./lang-files/${deviceLanguage}.js`)) {
-            language = require(`./lang-files/${deviceLanguage}.js`)
+        if (require(`./langs/${deviceLanguage}`)) {
+            language = require(`./langs/${deviceLanguage}`)
         }
+
+        language = language.default || language;
 
         const splited = slug.split('.');
         let translatedSlug: any = null;

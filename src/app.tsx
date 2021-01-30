@@ -11,6 +11,7 @@ function App() {
         <Router>
             <Switch>
                 {systemRoutes.map((item, key) => {
+                    document.title = item.title;
                     return(
                         <Route path={item.path} exact={item.exact} key={key}>
                             <item.page />

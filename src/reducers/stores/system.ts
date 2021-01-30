@@ -1,5 +1,14 @@
-const systemData = (state = null/**, action**/) => {
-    /**if (action.reducer === 'userData') {
+interface action {
+    reducer: string,
+    type: string,
+    value: any
+}
+const initialState = {
+
+};
+
+const systemData = (state: any = initialState, action: action) => {
+    if (action.reducer === 'userData') {
         if (state.hasOwnProperty(action.type)) {
             return { ...state, [action.type]: action.value };
         } else {
@@ -7,6 +16,6 @@ const systemData = (state = null/**, action**/) => {
         }
     } else {
         return state;
-    }**/
+    }
 };
 export default systemData;
