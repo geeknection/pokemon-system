@@ -4,8 +4,10 @@ const pt_BR: any = {
     loading: 'Carregando',
     systemTitle:  'Teste Pokémon',
     search: 'Pesquisar',
-    search_placeholder: 'Pesquisar um pokémon na listagem abaixo...',
-    pokemons_list: 'Lista de Pokémons'
+    search_placeholder: 'Pesquise um pokémon na listagem abaixo...',
+    pokemons_list: 'Lista de Pokémons',
+    not_found: 'Nenhum Pokémon encontrado',
+    see: 'Visualizar'
 };
 
 export default pt_BR;

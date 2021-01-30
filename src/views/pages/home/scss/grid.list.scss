@@ -1,0 +1,62 @@
+.grid-list {
+    max-width: 600px;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    overflow: auto;
+    .grid-subtitle {
+        font-size: 24px;
+        text-align: center;
+        padding: 20px 0;
+    }
+    .grid-item {
+        width: 100%;
+        max-width: 30%;
+        margin: 10px;
+        background-color: #FFF;
+        border: solid 1px #cecece;
+        box-shadow: 0px 0px 6px #0000004d;
+        border-radius: 4px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        height: 235px;
+        img {
+            width: 120px;
+        }
+        .grid-item-title {
+            font-size: 18px;
+            text-align: center;
+            font-family: 'Pokemon Hollow', sans-serif;
+            color: #3249b8;
+            line-height: 120%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+}
+@media (max-width: 1024px) {
+    .grid-list {
+        margin-left: auto;
+    }
+}
+@media (max-width: 648px) {
+    .grid-list {
+        justify-content: center;
+        .grid-item {
+            max-width: 180px;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+    }
+}
+@media (max-width: 480px) {
+    .grid-list .grid-item {
+        max-width: 140px;
+    }
+}

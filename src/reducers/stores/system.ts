@@ -10,7 +10,8 @@ const initialState: systemDataInterface = {
     next: '',
     previous: '',
     results: [],
-    loading: true
+    loading: true,
+    page: 1
 };
 
 /**

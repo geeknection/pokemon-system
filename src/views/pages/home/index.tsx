@@ -1,6 +1,8 @@
 import React from 'react';
 import getMessage from '#/translate';
 import {
+    pokemonsInterface,
+    pokemonSpriteInterface,
     setValueInterface,
     storeInterface,
     systemDataInterface
@@ -16,18 +18,30 @@ import { connect } from 'react-redux';
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
+interface historyInterface {
+    push(path: string, params?: object): any
+}
+
 interface homeProps {
     systemData: systemDataInterface,
-    setValue(data: setValueInterface): any
+    setValue(data: setValueInterface): any,
+    history: historyInterface
+}
+interface initialStateInterface {
+    count: number,
+    next?: string,
+    previous?: string,
+    results: pokemonsInterface[]
+}
+const initialState: initialStateInterface = {
+    count: 0,
+    next: '',
+    previous: '',
+    results: []
 }
 
 function HomeScreen(props: homeProps) {
-    const [state, setState] = React.useState({
-        count: 0,
-        next: '',
-        previous: '',
-        results: []
-    });
+    const [state, setState] = React.useState(Object.assign({}, initialState));
     const [page, setPage] = React.useState(1);
     const [search, setSearch] = React.useState('');
     const [screenWidth, setWidth] = React.useState(window.innerWidth);
@@ -36,9 +50,10 @@ function HomeScreen(props: homeProps) {
      * @returns void
      */
     const loadPokemons = async (params: string = '') => {
-        const response = await Endpoints.pokemons(params);
+        const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
             setState(response.values);
+            window.scrollTo(0, 0);
 
             await Utils.sleep();
 
@@ -47,7 +62,8 @@ function HomeScreen(props: homeProps) {
                 type: 'all',
                 value: {
                     ...response.values,
-                    loading: false
+                    loading: false,
+                    page
                 }
             });
         }
@@ -62,29 +78,13 @@ function HomeScreen(props: homeProps) {
     const initData = () => {
         const { results } = props.systemData;
         if (results.length) {
-            setState(props.systemData);
+            let data = props.systemData;
+            delete data.page;
+            setState(data);
         }
         else {
             loadPokemons();
         }
-    }
-    /**
-     * Avança a páginação
-     * @returns void
-     */
-    const nextPage = () => {
-        if (!state.next) return;
-        setPage(page + 1);
-        loadPokemons(state.next);
-    }
-    /**
-     * Volta a paginação
-     * @returns void
-     */
-    const previousPage = () => {
-        if (!state.previous) return;
-        setPage(page - 1);
-        loadPokemons(state.previous);
     }
     /**
      * Altera a página da listagem
@@ -93,21 +93,75 @@ function HomeScreen(props: homeProps) {
     const handlePageChange = (pageNumber: number) => {
         const pageMax = Math.round(state.count / 20);
         if ((pageNumber < 1) || (pageNumber > pageMax)) return;
+        const offset = (pageNumber * 20) - 20;
 
-        if (pageNumber > page) nextPage();
-        else if (pageNumber < page) previousPage();
+        setPage(pageNumber);
+        loadPokemons(`?offset=${offset}&limit=20`);
     }
     /**
      * Retornar o total de páginações
      * @returns void
      */
     const resizePageRange = (): number => (screenWidth <= 1024 ? 5 : 10);
+    const filterSearch = (item: pokemonsInterface): pokemonsInterface|void => {
+        if (!search) return item;
+        if (search) {
+            if (item.name.indexOf(search) >= 0) return item;
+        }
+    }
+    /**
+     * Retorna a lista de pokémons carregados
+     * @returns Array|Void
+     */
+    const pokemons = (): pokemonsInterface[] => (
+        state.results.sort((a: any, b: any) => a.name - b.name).filter(filterSearch)
+    );
+    /**
+     * Verifica a imagem disponível de um Pokémon e retorna
+     * @param images 
+     * @returns string
+     */
+    const getPokemonImage = (images: pokemonSpriteInterface): string => {
+        let url = images.front_default || require('./img/pokemon-not-found.png').default;
+        return url;
+    }
+    /**
+     * Formta o nome do Pokémon
+     * @param name 
+     * @returns string
+     */
+    const formatPokemonName = (name: string): string => {
+        let splited = name.split('-');
+        let result = '';
 
+        splited.forEach(item => result += `${Utils.toUpperCaseFirst(item)} `);
+
+        return result.trim();
+    };
+    /**
+     * Fallback para imagem quebrada
+     * @param e 
+     * @returns void
+     */
+    const filterBrokenImg = (e: any): void => {
+        e.target.src = require('./img/pokemon-not-found.png').default;
+    }
+    /**
+     * Abre as informações sobre um Pokémon
+     * @param item 
+     * @returns void
+     */
+    const seePokemon = (item: pokemonsInterface): void => {
+        props.history.push(`/pokemon/${item.id}`, {
+            pokemonData: item
+        });
+    }
     React.useEffect(() => {
         initData();
         addEventListener('resize', () => {
             setWidth(window.innerWidth);
         });
+        window.scrollTo(0, 0);
         return () => {
             initData;
         }
@@ -120,7 +174,7 @@ function HomeScreen(props: homeProps) {
                     <img
                         className='img-fluid'
                         src={require('./img/aside.png').default}
-                        alt='Pokemon Test' />
+                        alt={getMessage('systemTitle')} />
                 </aside>
                 <main className='grid'>
 
@@ -132,9 +186,27 @@ function HomeScreen(props: homeProps) {
                             value={search}
                             placeholder={getMessage('search_placeholder')}
                             onChange={(e) => setSearch(e.target.value)} />
-                        <button className='btn btn-search'>{getMessage('search')}</button>
                     </div>
 
+                    <div className='grid-list'>
+                        {pokemons().map((item, key) => {
+                            return(
+                                <div className='grid-item' key={key}>
+                                    <div className='h-100 text-center'>
+                                        <img
+                                            onError={filterBrokenImg}
+                                            src={getPokemonImage(item.sprites)}
+                                            className='img-fluid grid-image'
+                                            alt={item.name} />
+                                        <h2 className='grid-item-title'>{formatPokemonName(item.name)}</h2>
+                                    </div>
+                                    <button className='btn btn-see' onClick={() => seePokemon(item)}>{getMessage('see')}</button>
+                                </div>
+                            );
+                        })}
+                        {pokemons().length === 0 &&
+                        <div className='grid-list-none'><h2 className='grid-subtitle'>{getMessage('not_found')}</h2></div>}
+                    </div>
 
                     <div className='grid-footer'>
                         <Pagination

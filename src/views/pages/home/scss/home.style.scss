@@ -1,3 +1,5 @@
+@import 'grid.list';
+
 .home-box {
   background-color: #b03636;
   display: flex;
@@ -16,14 +18,19 @@
   }
   .grid {
     width: 75%;
-    flex: 2;
+    flex: 2 1;
     padding-top: 10px;
+    max-height: 100%;
+    overflow: auto;
     .grid-title {
-      font-family: 'Pokemon Hollow', sans-serif;
-      line-height: 120%;
-      max-width: 600px;
-      margin-bottom: 2.5rem;
-      text-align: center;
+        font-family: 'Pokemon Hollow', sans-serif;
+        line-height: 120%;
+        max-width: 600px;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        position: sticky;
+        top: -10px;
+        background-image: linear-gradient(180deg, #b03636 20%, transparent 80%);
     }
     .grid-input-box {
       display: flex;
@@ -34,6 +41,7 @@
       background: #fff;
       border: solid 1px #cecece;
       border-radius: 20.5px;
+      margin-bottom: 15px;
       .grid-input {
         background-color: transparent;
         border: none;
@@ -74,7 +82,7 @@
       margin-right: auto;
       .pagination {
         width: 100%;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: 20px;
       }
     }
@@ -93,6 +101,7 @@
       }
       .grid-input-box {
         margin: auto;
+        margin-bottom: 15px;
       }
       .grid-footer {
         margin-left: auto;
