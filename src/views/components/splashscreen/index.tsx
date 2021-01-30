@@ -1,4 +1,5 @@
 import {
+    setValueInterface,
     storeInterface,
     systemDataInterface
 } from '#/reducers/interfaces';
@@ -8,15 +9,17 @@ import './sass/splash.style.scss';
 import Lottie from 'react-lottie';
 import Pickachu from './json/lottie-pickachu.json';
 import getMessage from '#/translate';
+import setValue from '#/reducers/set-value';
 
 interface splashProps {
     systemData: systemDataInterface,
-    children?: ReactChild
+    children?: ReactChild,
+    setValue(data: setValueInterface): any,
 }
 
 function SplashScreen(props: splashProps) {
-    const { loading } = props.systemData;
-    const [play, setPlay] = useState(false);
+    const { loading, isPlaying } = props.systemData;
+    const [play, setPlay] = useState(isPlaying);
 
     const playAudio = () => {
         let data: HTMLAudioElement|null = document.querySelector('#bg-audio');
@@ -24,6 +27,11 @@ function SplashScreen(props: splashProps) {
             data.volume = 0.3;
             let prom: Promise<void> = data.play();
             prom.then(() => setPlay(true));
+            props.setValue({
+                reducer: 'systemData',
+                type: 'isPlaying',
+                value: true
+            });
         }
     }
 
@@ -57,6 +65,8 @@ function SplashScreen(props: splashProps) {
 const mapStateToProps = (store: storeInterface) => ({
     systemData: store.systemData
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    setValue
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

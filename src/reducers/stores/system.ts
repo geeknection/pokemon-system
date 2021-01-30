@@ -11,7 +11,8 @@ const initialState: systemDataInterface = {
     previous: '',
     results: [],
     loading: true,
-    page: 1
+    page: 1,
+    isPlaying: false
 };
 
 /**

@@ -9,7 +9,8 @@ export interface systemDataInterface {
     previous: string,
     results: pokemonsInterface[],
     loading: boolean,
-    page?: number
+    page?: number,
+    isPlaying: boolean
 }
 export interface storeInterface {
     systemData: systemDataInterface
