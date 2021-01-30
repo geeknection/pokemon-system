@@ -1,10 +1,9 @@
-import React from 'react';
 import getMessage from '#/translate';
 import HomeScreen from '#/views/pages/home';
 
 interface routes {
     title: string,
-    page: React.FC<any>,
+    page: any,
     path: string,
     exact: boolean
 }

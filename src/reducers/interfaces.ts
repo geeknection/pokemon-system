@@ -1,5 +1,13 @@
+export interface setValueInterface {
+    reducer: string,
+    type: string,
+    value: any
+}
 export interface systemDataInterface {
-    pokemons: any[]
+    count: number,
+    next: string,
+    previous: string,
+    results: never[]
 }
 export interface storeInterface {
     systemData: systemDataInterface

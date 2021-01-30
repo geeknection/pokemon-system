@@ -1,8 +1,4 @@
-interface setValueInterface {
-    reducer: string,
-    type: string,
-    value: any
-}
+import { setValueInterface } from "./interfaces";
 
 /**
  * Altera os stores

@@ -6,18 +6,28 @@ interface action {
     value: any
 }
 const initialState: systemDataInterface = {
-    pokemons: []
+    count: 0,
+    next: '',
+    previous: '',
+    results: []
 };
 
-const systemData = (state: any = initialState, action: action) => {
-    if (action.reducer === 'userData') {
-        if (state.hasOwnProperty(action.type)) {
-            return { ...state, [action.type]: action.value };
-        } else {
-            return state;
-        }
-    } else {
-        return state;
+/**
+ * Define um novo valor para todos os campos do state
+ * @returns object
+ */
+const setAll = (state: any, data: any): systemDataInterface => {
+    const result = Object.assign({}, state);
+    Object.keys(data).forEach(item => (state.hasOwnProperty(item)) && (result[item] = data[item]));
+    return result
+
+}
+const systemData = (state: systemDataInterface = initialState, action: action): systemDataInterface => {
+    if (action.reducer === 'systemData') {
+        if (action.type === 'all') return setAll(state, action.value);
+        if (state.hasOwnProperty(action.type)) return { ...state, [action.type]: action.value };
     }
+
+    return state;
 };
 export default systemData;
