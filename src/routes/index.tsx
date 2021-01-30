@@ -2,14 +2,14 @@ import React from 'react';
 import getMessage from '#/translate';
 import HomeScreen from '#/views/pages/home';
 
-interface systemRoutes {
+interface routes {
     title: string,
-    page: React.FC,
+    page: React.FC<any>,
     path: string,
     exact: boolean
 }
 
-const systemRoutes: systemRoutes[] = [
+const systemRoutes: routes[] = [
     {
         title: getMessage('welcome'),
         page: HomeScreen,

@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "rules": {},
+  "settings": {
+    "import/resolver": {
+      "babel-plugin-root-import": {}
+    }
+  }
+}
