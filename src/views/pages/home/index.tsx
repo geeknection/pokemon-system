@@ -9,7 +9,8 @@ import {
 import setValue from '#/reducers/set-value';
 import Endpoints from '#/endpoints';
 import { withRouter } from 'react-router-dom';
-import { ReactNode } from 'react';
+import Utils from '#/utils';
+import Splashscreen from '#/views/components/splashscreen';
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -31,13 +32,21 @@ function HomeScreen(props: homeProps) {
      * @returns void
      */
     const loadPokemons = async (params: string = '') => {
+        //@todo: remover o return
+        return;
         const response = await Endpoints.pokemons(params);
         if (response.status === true) {
             setState(response.values);
+
+            await Utils.sleep();
+
             props.setValue({
                 reducer: 'systemData',
                 type: 'all',
-                value: response.values
+                value: {
+                    ...response.values,
+                    loading: false
+                }
             });
         }
         else {
@@ -86,7 +95,9 @@ function HomeScreen(props: homeProps) {
     }, []);
 
     return(
-        <h1>{getMessage('welcome')}</h1>
+        <Splashscreen>
+            <h1>{getMessage('welcome')}</h1>
+        </Splashscreen>
     );
 }
 

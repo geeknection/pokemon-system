@@ -7,7 +7,8 @@ export interface systemDataInterface {
     count: number,
     next: string,
     previous: string,
-    results: never[]
+    results: never[],
+    loading: boolean
 }
 export interface storeInterface {
     systemData: systemDataInterface

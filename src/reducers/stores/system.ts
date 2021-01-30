@@ -9,7 +9,8 @@ const initialState: systemDataInterface = {
     count: 0,
     next: '',
     previous: '',
-    results: []
+    results: [],
+    loading: true
 };
 
 /**
