@@ -22,6 +22,7 @@ import getMessage from "#/translate";
 import VanillaTilt from 'vanilla-tilt';
 import Pokemon from "#/classes/pokemon";
 import PokemonDetails from "#/views/components/pokemon/details";
+import Skeleton from "#/views/components/skeleton";
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -45,7 +46,7 @@ const pokemonData = new Pokemon().data;
 
 function PokemonScreen(props: propsScreen) {
     const [data, setData] = useState(pokemonData);
-    const [loading, setLoad] = useState(false);
+    const [loading, setLoad] = useState(true);
     const [currentImage, setCurrent] = useState({
         url: '',
         type: 'front'
@@ -185,34 +186,55 @@ function PokemonScreen(props: propsScreen) {
                     <div className='pokemon-images row-column'>
                         <h1 className='pokemon-name'>{data.name}</h1>
                         <div className='pokemon-image'>
-                            <img
-                                data-tilt data-tilt-reverse='true'
-                                onError={Utils.filterBrokenImg}
-                                src={currentImage.url}
-                                className='img-fluid'
-                                alt={data.name} />
+                            <Skeleton
+                                loading={loading}
+                                style={{
+                                    width: '200px',
+                                    height: '200px'
+                                }}>
+                                <img
+                                    data-tilt data-tilt-reverse='true'
+                                    onError={Utils.filterBrokenImg}
+                                    src={currentImage.url}
+                                    className='img-fluid'
+                                    alt={data.name} />
+                            </Skeleton>
                         </div>
                         <div className='pokemon-image-options'>
-                            <a
-                                className={classNamePokeImg('front')}
-                                title={data.name}
-                                onClick={(e) => handleSprite(e, data.sprites.front_default, 'front')}>
-                                <img
-                                    onError={Utils.filterBrokenImg}
-                                    className='img-fluid'
-                                    src={data.sprites.front_default}
-                                    alt={`${data.name} Front Default`} />
-                            </a>
-                            <a
-                                className={classNamePokeImg('back')}
-                                title={data.name}
-                                onClick={(e) => handleSprite(e, data.sprites.back_default, 'back')}>
-                                <img
-                                    onError={Utils.filterBrokenImg}
-                                    className='img-fluid'
-                                    src={data.sprites.back_default}
-                                    alt={`${data.name} Back Default`} />
-                            </a>
+                            <Skeleton
+                                loading={loading}
+                                style={{
+                                    width: '96px',
+                                    height: '96px'
+                                }}>
+                                <a
+                                    className={classNamePokeImg('front')}
+                                    title={data.name}
+                                    onClick={(e) => handleSprite(e, data.sprites.front_default, 'front')}>
+                                    <img
+                                        onError={Utils.filterBrokenImg}
+                                        className='img-fluid'
+                                        src={data.sprites.front_default}
+                                        alt={`${data.name} Front Default`} />
+                                </a>
+                            </Skeleton>
+                            <Skeleton
+                                loading={loading}
+                                style={{
+                                    width: '96px',
+                                    height: '96px'
+                                }}>
+                                <a
+                                    className={classNamePokeImg('back')}
+                                    title={data.name}
+                                    onClick={(e) => handleSprite(e, data.sprites.back_default, 'back')}>
+                                    <img
+                                        onError={Utils.filterBrokenImg}
+                                        className='img-fluid'
+                                        src={data.sprites.back_default}
+                                        alt={`${data.name} Back Default`} />
+                                </a>
+                            </Skeleton>
                         </div>
                         <button className='btn btn-details' onClick={toggleModal}>{getMessage('seeDetails')}</button>
                     </div>
@@ -221,7 +243,8 @@ function PokemonScreen(props: propsScreen) {
                         screenWidth={screenWidth}
                         moreThen={1024}
                         data={data}
-                        modal={modal}/>
+                        modal={modal}
+                        loading={loading}/>
                 </div>
 
                 <PokemonDetails
@@ -229,8 +252,9 @@ function PokemonScreen(props: propsScreen) {
                     screenWidth={screenWidth}
                     lessThen={1024}
                     data={data}
+                    loading={loading}
                     modal={modal}/>
-                {(modal && window.innerWidth <= 1024) && <div className='modal-bg'></div>}
+                {(modal && window.innerWidth <= 1024) && <div className='modal-bg' onClick={toggleModal}></div>}
 
             </div>
         </div>

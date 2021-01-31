@@ -1,5 +1,6 @@
 import { pokemonsInterface } from "#/reducers/interfaces";
 import getMessage from "#/translate";
+import Skeleton from "../skeleton";
 
 interface propsData {
     data: pokemonsInterface,
@@ -7,11 +8,15 @@ interface propsData {
     screenWidth: number,
     moreThen?: number,
     lessThen?: number,
-    toggleModal(): void
+    toggleModal(): void,
+    loading: boolean
 }
 
 function PokemonDetails(props: propsData) {
-    const { data, modal, screenWidth, moreThen, lessThen, toggleModal } = props;
+    const {
+        data, modal, screenWidth, moreThen, lessThen, toggleModal, loading
+    } = props;
+
     if (moreThen) {
         if (screenWidth < moreThen) return <></>;
     }
@@ -23,6 +28,22 @@ function PokemonDetails(props: propsData) {
         <div className={`pokemon-details ${(modal && screenWidth <= 1024) ? 'active' : ''}`}>
             <h2 className='pokemon-details-subtitle'>{getMessage('details')}</h2>
             <span className='close' onClick={toggleModal}>{getMessage('close')}</span>
+
+            <Skeleton
+                style={{
+                    width: '100%',
+                    height: '15px',
+                    marginBottom: '10px'
+                }}
+                loading={loading}/>
+
+            <Skeleton
+                style={{
+                    width: '100%',
+                    height: '15px',
+                    marginBottom: '10px'
+                }}
+                loading={loading}/>
 
             <div className='row'>
                 <ul>
