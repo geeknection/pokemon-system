@@ -130,7 +130,14 @@ function PokemonScreen(props: propsScreen) {
      * @returns void
      */
     const goBack = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        props.history.go(-1);
+        e.preventDefault();
+        e.stopPropagation();
+        if (document.referrer !== `${process.env.REACT_APP_URL}/`) {
+            props.history.push('/');
+        }
+        else {
+            props.history.go(-1);
+        }
     }
 
     useEffect(() => {
@@ -148,12 +155,15 @@ function PokemonScreen(props: propsScreen) {
 
                 {/** CABEÇALHO COM O BOTÃO VOLTAR */}
                 <div className='pokemon-goback'>
-                    <Link to='/' onClick={goBack} className='d-inline-block'>
+                    <a
+                        href={`${process.env.PUBLIC_URL}/`}
+                        onClick={goBack}
+                        className='d-inline-block'>
                         <img
                             className='img-fluid img-goback'
                             src={require('./img/left-arrow.svg').default}
                             alt={getMessage('goBack')} />
-                    </Link>
+                    </a>
                 </div>
 
                 {/** DADOS DO POKÉMON */}
