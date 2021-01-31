@@ -156,8 +156,8 @@ function PokemonScreen(props: propsScreen) {
         vanillaInit();
         addEventListener('resize', updateWidth);
         return () => {
-            initData;
-            VanillaTilt;
+            initData
+            vanillaInit;
             addEventListener('resize', updateWidth);
         }
     }, []);

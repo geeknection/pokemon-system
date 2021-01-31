@@ -60,8 +60,15 @@
     }
 }
 @media (max-width: 1024px) {
+    .grid-title {
+        padding-top: 20px;
+    }
     .grid-list {
         margin-left: auto;
+        .grid-item-title {
+            font-size: 15px!important;
+            font-family: sans-serif!important;
+        }
     }
 }
 @media (max-width: 648px) {
