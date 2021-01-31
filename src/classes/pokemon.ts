@@ -1,5 +1,6 @@
 import {
-    pokemonsInterface, pokemonSpriteInterface
+    pokemonAbilitiesInterface,
+    pokemonsInterface
 } from '#/reducers/interfaces';
 import Utils from '../utils/index';
 
@@ -18,7 +19,10 @@ class Pokemon {
             front_shiny_female: null
         },
         height: 0,
-        weight: 0
+        weight: 0,
+        stats: [],
+        abilities: [],
+        types: []
     };
     constructor(data?: pokemonsInterface) {
         if (data) this.data = data;
@@ -63,6 +67,38 @@ class Pokemon {
         this.data.sprites = items;
     }
     /**
+     * Formata os Status base do pokémon
+     * @returns void
+     */
+    formatStats = (): void => {
+        this.data.stats.map(item => {
+            item.stat.name = Utils.toUpperCaseFirst(item.stat.name);
+            return item;
+        });
+    }
+    /**
+     * Formata as habilidades do pokémon
+     * @returns void
+     */
+    formatAbilities = (): void => {
+        const abilities: pokemonAbilitiesInterface[] = Object.assign([], this.data.abilities);
+        abilities.map(item => {
+            item.ability.name = Utils.toUpperCaseFirst(item.ability.name);
+            return item;
+        });
+        this.data.abilities = abilities.filter(item => item.is_hidden === false);
+    }
+    /**
+     * Formata os tipos do pokémon
+     * @returns void
+     */
+    formatTypes = (): void => {
+        this.data.types.map(item => {
+            item.type.name = Utils.toUpperCaseFirst(item.type.name);
+            return item;
+        });
+    }
+    /**
      * Inicia as configurações da classe
      * @returns void
      */
@@ -71,6 +107,9 @@ class Pokemon {
         this.data.weight = this.pokemonWeight(this.data.weight);
         this.data.height = this.pokemonHeight(this.data.height);
         this.formatSprites();
+        this.formatStats();
+        this.formatAbilities();
+        this.formatTypes();
     }
 }
 

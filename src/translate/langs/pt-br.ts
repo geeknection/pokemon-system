@@ -9,7 +9,17 @@ const pt_BR: any = {
     not_found: 'Nenhum Pokémon encontrado',
     see: 'Visualizar',
     pokemonPage: 'Página do Pokémon',
-    goBack: 'Voltar'
+    goBack: 'Voltar',
+    details: 'Detalhes',
+    height: 'Altura',
+    weight: 'Peso',
+    stats: 'Status base',
+    abilities: 'Habilidades',
+    types: 'Tipos',
+    ability: 'Habilidade',
+    type: 'Tipo',
+    seeDetails: 'Ver detalhes',
+    close: 'Fechar'
 };
 
 export default pt_BR;

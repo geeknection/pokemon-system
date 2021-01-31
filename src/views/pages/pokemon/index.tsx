@@ -21,6 +21,7 @@ import Utils from "#/utils";
 import getMessage from "#/translate";
 import VanillaTilt from 'vanilla-tilt';
 import Pokemon from "#/classes/pokemon";
+import PokemonDetails from "#/views/components/pokemon/details";
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -49,6 +50,8 @@ function PokemonScreen(props: propsScreen) {
         url: '',
         type: 'front'
     });
+    const [modal, setModal] = useState(false);
+    const [screenWidth, setWidth] = useState(window.innerWidth);
 
     /**
      * Carrega os dados do Pokémon
@@ -136,13 +139,25 @@ function PokemonScreen(props: propsScreen) {
             props.history.go(-1);
         }
     }
+    /**
+     * Abre ou fecha o modal de detalhes
+     * @returns void
+     */
+    const toggleModal = (): void => setModal(!modal);
+    /**
+     * Atualiza o valor da largura da tela
+     * @returns void
+     */
+    const updateWidth = () => setWidth(window.innerWidth);
 
     useEffect(() => {
         initData();
         vanillaInit();
+        addEventListener('resize', updateWidth);
         return () => {
             initData;
             VanillaTilt;
+            addEventListener('resize', updateWidth);
         }
     }, []);
 
@@ -199,11 +214,23 @@ function PokemonScreen(props: propsScreen) {
                                     alt={`${data.name} Back Default`} />
                             </a>
                         </div>
+                        <button className='btn btn-details' onClick={toggleModal}>{getMessage('seeDetails')}</button>
                     </div>
-
-                    {/** DETALHES DO POKÉMON */}
-
+                    <PokemonDetails
+                        toggleModal={toggleModal}
+                        screenWidth={screenWidth}
+                        moreThen={1024}
+                        data={data}
+                        modal={modal}/>
                 </div>
+
+                <PokemonDetails
+                    toggleModal={toggleModal}
+                    screenWidth={screenWidth}
+                    lessThen={1024}
+                    data={data}
+                    modal={modal}/>
+                {(modal && window.innerWidth <= 1024) && <div className='modal-bg'></div>}
 
             </div>
         </div>
