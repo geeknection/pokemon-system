@@ -14,7 +14,7 @@ import Splashscreen from '#/views/components/splashscreen';
 import './scss/home.style.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Pokemon from '#/utils/pokemon';
+import Pokemon from '#/classes/pokemon';
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -46,10 +46,22 @@ function HomeScreen(props: homeProps) {
     const [search, setSearch] = React.useState('');
     const [screenWidth, setWidth] = React.useState(window.innerWidth);
     /**
+     * Atualiza o número da página da listagem atual
+     * @param pageNumber 
+     * @returns void
+     */
+    const updateReduxPage = (pageNumber: number): void => {
+        props.setValue({
+            reducer: 'systemData',
+            type: 'page',
+            value: pageNumber
+        });
+    }
+    /**
      * Carrega os pokémons
      * @returns void
      */
-    const loadPokemons = async (params: string = '', pageNumber: number = 1) => {
+    const loadPokemons = async (params: string = '') => {
         const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
             response.values.results.map((item: pokemonsInterface) => {
@@ -67,8 +79,7 @@ function HomeScreen(props: homeProps) {
                 type: 'all',
                 value: {
                     ...response.values,
-                    loading: false,
-                    page: pageNumber
+                    loading: false
                 }
             });
         }
@@ -85,12 +96,13 @@ function HomeScreen(props: homeProps) {
         if (results.length) {
             let data = props.systemData;
             setPage(data.page || 1);
-
+            updateReduxPage(data.page || 1);
             delete data.page;
             setState(data);
         }
         else {
             loadPokemons();
+            updateReduxPage(page);
         }
     }
     /**
@@ -103,7 +115,8 @@ function HomeScreen(props: homeProps) {
         const offset = (pageNumber * 20) - 20;
 
         setPage(pageNumber);
-        loadPokemons(`?offset=${offset}&limit=20`, pageNumber);
+        updateReduxPage(pageNumber);
+        loadPokemons(`?offset=${offset}&limit=20`);
     }
     /**
      * Retornar o total de páginações

@@ -20,7 +20,7 @@ import Endpoints from "#/endpoints";
 import Utils from "#/utils";
 import getMessage from "#/translate";
 import VanillaTilt from 'vanilla-tilt';
-import Pokemon from "#/utils/pokemon";
+import Pokemon from "#/classes/pokemon";
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -129,7 +129,7 @@ function PokemonScreen(props: propsScreen) {
     const goBack = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
         e.stopPropagation();
-        if (document.referrer !== `${process.env.REACT_APP_URL}/`) {
+        if (document.referrer !== `${process.env.REACT_APP_URL}`) {
             props.history.push('/');
         }
         else {

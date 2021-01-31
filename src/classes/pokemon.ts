@@ -1,7 +1,7 @@
 import {
     pokemonsInterface, pokemonSpriteInterface
 } from '#/reducers/interfaces';
-import Utils from './index';
+import Utils from '../utils/index';
 
 class Pokemon {
     data: pokemonsInterface = {
