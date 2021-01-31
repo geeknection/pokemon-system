@@ -1,4 +1,5 @@
 class Utils {
+    constructor() {}
     /**
      * Cria um delay
      * @param timeout 
@@ -19,18 +20,13 @@ class Utils {
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
     /**
-     * Formta o nome do Pokémon
-     * @param name 
+     * Coloca em caixa alta o primeiro carácter da string
+     * @param value 
      * @returns string
      */
-    static formatPokemonName = (name: string): string => {
-        let splited = name.split('-');
-        let result = '';
-
-        splited.forEach(item => result += `${Utils.toUpperCaseFirst(item)} `);
-
-        return result.trim();
-    };
+    toUpperCaseFirst = (value: string): string => {
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    }
     /**
      * Fallback para imagem quebrada
      * @param e 

@@ -1,4 +1,5 @@
 import {
+    pokemonsInterface,
     pokemonSpriteInterface,
     setValueInterface,
     storeInterface,
@@ -19,6 +20,7 @@ import Endpoints from "#/endpoints";
 import Utils from "#/utils";
 import getMessage from "#/translate";
 import VanillaTilt from 'vanilla-tilt';
+import Pokemon from "#/utils/pokemon";
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -36,16 +38,9 @@ interface propsScreen {
     setValue(data: setValueInterface): any,
     history: historyInterface,
     match: matchInterface,
-    pokemon?: pokemonDataInterface
+    pokemon?: pokemonsInterface
 }
-interface pokemonDataInterface {
-    name: string,
-    sprites: pokemonSpriteInterface
-}
-const pokemonData: pokemonDataInterface = {
-    name: '',
-    sprites: {}
-}
+const pokemonData = new Pokemon().data;
 
 function PokemonScreen(props: propsScreen) {
     const [data, setData] = useState(pokemonData);
@@ -64,8 +59,9 @@ function PokemonScreen(props: propsScreen) {
         const response = await Endpoints.getDataById(id);
         if (response.status === true) {
             setLoad(false);
-            setData(response.values);
-            document.title = Utils.formatPokemonName(response.values.name);
+            const pokemon = new Pokemon(response.values);
+            setData(pokemon.data);
+            document.title = pokemon.data.name;
             setCurrent({
                 url: response.values.sprites.front_default,
                 type: 'front'
@@ -82,8 +78,9 @@ function PokemonScreen(props: propsScreen) {
      */
     const initData = (): void => {
         if (props.pokemon) {
-            setData(props.pokemon);
-            document.title = Utils.formatPokemonName(props.pokemon.name);
+            const pokemon = new Pokemon(props.pokemon);
+            setData(pokemon.data);
+            document.title = pokemon.data.name;
             setLoad(false);
         }
         else getPokemonData();
@@ -99,7 +96,7 @@ function PokemonScreen(props: propsScreen) {
         e.preventDefault();
         e.stopPropagation();
         setCurrent({
-            url: image || require('./img/pokemon-not-found.png').default,
+            url: image,
             type
         });
     }
@@ -171,12 +168,12 @@ function PokemonScreen(props: propsScreen) {
 
                     {/** IMAGEM DO POKÉMON */}
                     <div className='pokemon-images row-column'>
-                        <h1 className='pokemon-name'>{Utils.formatPokemonName(data.name)}</h1>
+                        <h1 className='pokemon-name'>{data.name}</h1>
                         <div className='pokemon-image'>
                             <img
                                 data-tilt data-tilt-reverse='true'
                                 onError={Utils.filterBrokenImg}
-                                src={currentImage.url  || require('./img/pokemon-not-found.png').default}
+                                src={currentImage.url}
                                 className='img-fluid'
                                 alt={data.name} />
                         </div>
@@ -188,7 +185,7 @@ function PokemonScreen(props: propsScreen) {
                                 <img
                                     onError={Utils.filterBrokenImg}
                                     className='img-fluid'
-                                    src={data.sprites.front_default || require('./img/pokemon-not-found.png').default}
+                                    src={data.sprites.front_default}
                                     alt={`${data.name} Front Default`} />
                             </a>
                             <a
@@ -198,7 +195,7 @@ function PokemonScreen(props: propsScreen) {
                                 <img
                                     onError={Utils.filterBrokenImg}
                                     className='img-fluid'
-                                    src={data.sprites.back_default || require('./img/pokemon-not-found.png').default}
+                                    src={data.sprites.back_default}
                                     alt={`${data.name} Back Default`} />
                             </a>
                         </div>

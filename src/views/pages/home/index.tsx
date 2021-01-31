@@ -2,7 +2,6 @@ import React from 'react';
 import getMessage from '#/translate';
 import {
     pokemonsInterface,
-    pokemonSpriteInterface,
     setValueInterface,
     storeInterface,
     systemDataInterface
@@ -15,6 +14,7 @@ import Splashscreen from '#/views/components/splashscreen';
 import './scss/home.style.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Pokemon from '#/utils/pokemon';
 
 declare function alert(message?: any, position?: string, type?: string): void;
 
@@ -53,7 +53,8 @@ function HomeScreen(props: homeProps) {
         const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
             response.values.results.map((item: pokemonsInterface) => {
-                item.name = Utils.formatPokemonName(item.name);
+                const pokemon = new Pokemon(item);
+                item = pokemon.data;
                 return item;
             });
             setState(response.values);
@@ -123,15 +124,6 @@ function HomeScreen(props: homeProps) {
         state.results.sort((a: any, b: any) => a.name - b.name).filter(filterSearch)
     );
     /**
-     * Verifica a imagem disponível de um Pokémon e retorna
-     * @param images 
-     * @returns string
-     */
-    const getPokemonImage = (images: pokemonSpriteInterface): string => {
-        let url = images.front_default || require('./img/pokemon-not-found.png').default;
-        return url;
-    }
-    /**
      * Abre as informações sobre um Pokémon
      * @param item 
      * @returns void
@@ -185,7 +177,7 @@ function HomeScreen(props: homeProps) {
                                         <div className='box-img'>
                                             <img
                                                 onError={Utils.filterBrokenImg}
-                                                src={getPokemonImage(item.sprites)}
+                                                src={item.sprites.front_default}
                                                 className='img-fluid grid-image'
                                                 alt={item.name} />
                                         </div>
