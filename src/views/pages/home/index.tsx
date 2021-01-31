@@ -49,7 +49,7 @@ function HomeScreen(props: homeProps) {
      * Carrega os pokémons
      * @returns void
      */
-    const loadPokemons = async (params: string = '') => {
+    const loadPokemons = async (params: string = '', pageNumber: number = 1) => {
         const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
             response.values.results.map((item: pokemonsInterface) => {
@@ -67,7 +67,7 @@ function HomeScreen(props: homeProps) {
                 value: {
                     ...response.values,
                     loading: false,
-                    page
+                    page: pageNumber
                 }
             });
         }
@@ -83,6 +83,8 @@ function HomeScreen(props: homeProps) {
         const { results } = props.systemData;
         if (results.length) {
             let data = props.systemData;
+            setPage(data.page || 1);
+
             delete data.page;
             setState(data);
         }
@@ -100,7 +102,7 @@ function HomeScreen(props: homeProps) {
         const offset = (pageNumber * 20) - 20;
 
         setPage(pageNumber);
-        loadPokemons(`?offset=${offset}&limit=20`);
+        loadPokemons(`?offset=${offset}&limit=20`, pageNumber);
     }
     /**
      * Retornar o total de páginações

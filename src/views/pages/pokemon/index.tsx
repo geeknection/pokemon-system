@@ -24,7 +24,8 @@ declare function alert(message?: any, position?: string, type?: string): void;
 
 interface historyInterface {
     push(path: string, params?: object): any,
-    goBack(): any
+    goBack(): any,
+    go(value: number): any
 }
 interface matchInterface {
     params: any
@@ -123,6 +124,14 @@ function PokemonScreen(props: propsScreen) {
             });
         }
     }
+    /**
+     * Volta para a navegação anterior
+     * @param e 
+     * @returns void
+     */
+    const goBack = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        props.history.go(-1);
+    }
 
     useEffect(() => {
         initData();
@@ -139,7 +148,7 @@ function PokemonScreen(props: propsScreen) {
 
                 {/** CABEÇALHO COM O BOTÃO VOLTAR */}
                 <div className='pokemon-goback'>
-                    <Link to='/' className='d-inline-block'>
+                    <Link to='/' onClick={goBack} className='d-inline-block'>
                         <img
                             className='img-fluid img-goback'
                             src={require('./img/left-arrow.svg').default}
