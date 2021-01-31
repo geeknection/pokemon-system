@@ -8,7 +8,8 @@ const pt_BR: any = {
     pokemons_list: 'Lista de Pokémons',
     not_found: 'Nenhum Pokémon encontrado',
     see: 'Visualizar',
-    pokemonPage: 'Página do Pokémon'
+    pokemonPage: 'Página do Pokémon',
+    goBack: 'Voltar'
 };
 
 export default pt_BR;

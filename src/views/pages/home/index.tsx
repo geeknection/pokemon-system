@@ -130,14 +130,6 @@ function HomeScreen(props: homeProps) {
         return url;
     }
     /**
-     * Fallback para imagem quebrada
-     * @param e 
-     * @returns void
-     */
-    const filterBrokenImg = (e: any): void => {
-        e.target.src = require('./img/pokemon-not-found.png').default;
-    }
-    /**
      * Abre as informações sobre um Pokémon
      * @param item 
      * @returns void
@@ -190,7 +182,7 @@ function HomeScreen(props: homeProps) {
                                     <div className='h-100 text-center'>
                                         <div className='box-img'>
                                             <img
-                                                onError={filterBrokenImg}
+                                                onError={Utils.filterBrokenImg}
                                                 src={getPokemonImage(item.sprites)}
                                                 className='img-fluid grid-image'
                                                 alt={item.name} />

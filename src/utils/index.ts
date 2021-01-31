@@ -31,6 +31,14 @@ class Utils {
 
         return result.trim();
     };
+    /**
+     * Fallback para imagem quebrada
+     * @param e 
+     * @returns void
+     */
+    static filterBrokenImg = (e: any): void => {
+        e.target.src = require('./img/pokemon-not-found.png').default;
+    }
 }
 
 export default Utils;
