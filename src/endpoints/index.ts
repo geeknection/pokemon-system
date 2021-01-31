@@ -25,6 +25,26 @@ class Endpoints {
         return data;
     }
     /**
+     * Pega os dados do Pokémon pelo ID
+     * @param id
+     * @return Object
+     */
+    static getDataById = async (id: number): Promise<returnPromise> => {
+        try {
+            const { data } = await Api.get(`/pokemon/${id}`, {});
+            return {
+                status: true,
+                values: data
+            };
+        }
+        catch (error) {
+            return {
+                status: false,
+                message: error.message
+            }
+        }
+    }
+    /**
      * Pega os dados de todos os pokémons carregados
      * @param list 
      * @returns Array

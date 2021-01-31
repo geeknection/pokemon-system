@@ -53,7 +53,7 @@ function HomeScreen(props: homeProps) {
         const response: any = await Endpoints.pokemons(params);
         if (response.status === true) {
             response.values.results.map((item: pokemonsInterface) => {
-                item.name = formatPokemonName(item.name);
+                item.name = Utils.formatPokemonName(item.name);
                 return item;
             });
             setState(response.values);
@@ -130,19 +130,6 @@ function HomeScreen(props: homeProps) {
         return url;
     }
     /**
-     * Formta o nome do Pokémon
-     * @param name 
-     * @returns string
-     */
-    const formatPokemonName = (name: string): string => {
-        let splited = name.split('-');
-        let result = '';
-
-        splited.forEach(item => result += `${Utils.toUpperCaseFirst(item)} `);
-
-        return result.trim();
-    };
-    /**
      * Fallback para imagem quebrada
      * @param e 
      * @returns void
@@ -157,17 +144,21 @@ function HomeScreen(props: homeProps) {
      */
     const seePokemon = (item: pokemonsInterface): void => {
         props.history.push(`/pokemon/${item.id}`, {
-            pokemonData: item
+            pokemon: item
         });
     }
+    /**
+     * Atualiza o valor da largura da tela
+     * @returns void
+     */
+    const updateWidth = () => setWidth(window.innerWidth);
     React.useEffect(() => {
         initData();
-        addEventListener('resize', () => {
-            setWidth(window.innerWidth);
-        });
+        addEventListener('resize', updateWidth);
         window.scrollTo(0, 0);
         return () => {
             initData;
+            addEventListener('resize', updateWidth);
         }
     }, []);
 
