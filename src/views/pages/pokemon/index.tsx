@@ -117,8 +117,8 @@ function PokemonScreen(props: propsScreen) {
      * @returns void
      */
     const vanillaInit = (): void => {
-        const element: any = document.querySelector(".pokemon-image > img");
-        if (element && (window.innerWidth > 1024)) {
+        const element: any = document.querySelector(".pokemon-image img");
+        if (element && (screenWidth > 1024)) {
             VanillaTilt.init(element, {
                 max: 25,
                 speed: 400
@@ -191,14 +191,17 @@ function PokemonScreen(props: propsScreen) {
                                 style={{
                                     width: '200px',
                                     height: '200px'
-                                }}>
-                                <img
-                                    data-tilt data-tilt-reverse='true'
-                                    onError={Utils.filterBrokenImg}
-                                    src={currentImage.url}
-                                    className='img-fluid'
-                                    alt={data.name} />
-                            </Skeleton>
+                                }}></Skeleton>
+                            {
+                            <img
+                                style={loading ? {
+                                    display: 'none'
+                                } : {}}
+                                data-tilt data-tilt-reverse='true'
+                                onError={Utils.filterBrokenImg}
+                                src={currentImage.url}
+                                className='img-fluid'
+                                alt={data.name} />}
                         </div>
                         <div className='pokemon-image-options'>
                             <Skeleton
