@@ -1,6 +1,6 @@
 # Getting Started
 
-Pesquisa todos os pokémons já catalogados e veja detalhadamente suas caractéristicas
+Pesquise todos os pokémons já catalogados e veja detalhadamente suas caractéristicas
 
 ## Available Scripts
 
